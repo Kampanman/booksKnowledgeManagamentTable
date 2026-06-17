@@ -1,32 +1,31 @@
 # わたしの読書ナレッジマネジメントテーブル プロジェクトサマリー
 
-ご要望の「ナレッジマネジメントウェブツール」のディレクトリ構成とソースコード一式を作成しました。
 さくらレンタルサーバーなどの一般的なPHPが稼働するサーバーへ、フォルダごとアップロードすることでそのままご利用いただけます。
 
 ## 📁 ディレクトリ構成
 
-作成されたファイル群の構成は以下の通りです。
+本プロジェクトのファイル群の構成は以下の通りです。
 
-- [booksKnowledgeManagamentTable](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable)
-  - [index.php](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/index.php) - メイン画面。React (CDN版) と Babel (CDN版) を読み込みます。
-  - [server.php](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/server.php) - CSVデータを解析してJSON形式で返却するPHPスクリプト。
-  - [static/](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/static)
-    - [app.js](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/static/app.js) - Reactのメインロジック（表示切替やデータ取得など）。
-    - [style.css](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/static/style.css) - 洗練されたモダンなデザインを司るCSS。
-    - [components/](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/static/components)
-      - [KnowledgeList.js](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/static/components/KnowledgeList.js) - 検索・ソート・ページネーション付きのナレッジ一覧コンポーネント。
-      - [KnowledgeDetail.js](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/static/components/KnowledgeDetail.js) - 詳細テーブル表示と、展開エリアを司るコンポーネント。
-  - [storage/](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/storage)
-    - [relator.csv](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/storage/relator.csv) - CSVファイルと画面表示名の紐付け定義ファイル。
-    - [knowledgespace/](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/storage/knowledgespace)
-      - [sample.csv](file:///C:/Users/user/Desktop/booksKnowledgeManagamentTable/storage/knowledgespace/sample.csv) - 動作確認用のサンプルCSVファイル。
+- [booksKnowledgeManagamentTable]
+  - [index.php](./index.php) - メイン画面。React (CDN版) と Babel (CDN版) を読み込みます。
+  - [server.php](./server.php) - CSVデータを解析してJSON形式で返却するPHPスクリプト。
+  - [static/](./static)
+    - [app.js](./static/app.js) - Reactのメインロジック（表示切替やデータ取得など）。
+    - [style.css](./static/style.css) - 洗練されたモダンなデザインを司るCSS。
+    - [components/](./static/components)
+      - [KnowledgeList.js](./static/components/KnowledgeList.js) - 検索・ソート・ページネーション付きのナレッジ一覧コンポーネント。
+      - [KnowledgeDetail.js](./static/components/KnowledgeDetail.js) - 詳細テーブル表示と、展開エリアを司るコンポーネント。
+  - [storage/](./storage)
+    - [relator.csv](./storage/relator.csv) - CSVファイルと画面表示名の紐付け定義ファイル。
+    - [knowledgespace/](./storage/knowledgespace)
+      - [sample.csv](./storage/knowledgespace/sample.csv) - 動作確認用のサンプルCSVファイル。
 
 ---
 
 ## 🛠️ 各ファイルの役割と実装概要
 
 ### 1. `index.php`
-React 18 と Babel CDN を使用し、ビルド環境（WebpackやViteなど）を用意することなく、ブラウザ上で直接JSXコードを実行できる構成にしています。これにより、さくらレンタルサーバーへのアップロードだけで動作します。
+React 18 と Babel CDN を使用し、ビルド環境（WebpackやViteなど）を用意することなく、ブラウザ上で直接JSXコードを実行できる構成にしています。これにより、さくらレンタルサーバー等へのアップロードだけで動作します。
 
 ### 2. `server.php`
 セキュリティ対策（ディレクトリトラバーサル防止）や、CSVの文字コードBOM対策を組み込んでいます。
