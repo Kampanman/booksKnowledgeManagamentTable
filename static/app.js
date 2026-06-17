@@ -120,7 +120,7 @@ const App = () => {
             </main>
 
             <footer className="app-footer">
-                <p>&copy; 2026 わたしの読書ナレッジマネジメントテーブル</p>
+                <p>&copy; 2026 わたしの読書ナレッジマネジメントテーブル<br />Created with Antigravity-CLI</p>
             </footer>
 
             {showScrollTop && (

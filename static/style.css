@@ -136,6 +136,11 @@ body {
     border-bottom: 1px solid #f1f5f9;
 }
 
+.table td {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
 .table th {
     background-color: #f8fafc;
     font-weight: 600;
