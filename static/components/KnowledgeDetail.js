@@ -115,7 +115,7 @@ const KnowledgeDetail = ({ detail, onBack }) => {
                 </div>
 
                 <div className="table-responsive">
-                    <table className="table table-striped">
+                    <table className="table table-striped table-mobile-card">
                         <thead>
                             <tr>
                                 {view_cols.map(col => (
@@ -135,7 +135,7 @@ const KnowledgeDetail = ({ detail, onBack }) => {
                                         >
                                             {view_cols.map(col => {
                                                 const formatted = formatValue(row[col]);
-                                                return <td key={col}>{formatted !== '' ? formatted : '-'}</td>;
+                                                return <td key={col} data-label={col}>{formatted !== '' ? formatted : '-'}</td>;
                                             })}
                                             <td className="text-center" style={{ whiteSpace: 'nowrap' }}>
                                                 <button 

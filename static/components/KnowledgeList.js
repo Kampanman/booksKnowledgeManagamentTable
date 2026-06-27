@@ -75,7 +75,7 @@ const KnowledgeList = ({ list, onSelect }) => {
             </div>
 
             <div className="table-responsive">
-                <table className="table">
+                <table className="table table-mobile-card">
                     <thead>
                         <tr>
                             <th>タイトル</th>
@@ -86,7 +86,7 @@ const KnowledgeList = ({ list, onSelect }) => {
                         {currentItems.length > 0 ? (
                             currentItems.map((item, index) => (
                                 <tr key={item.file_title || index}>
-                                    <td className="font-semibold">{item.view_title}</td>
+                                    <td data-label="タイトル" className="font-semibold">{item.view_title}</td>
                                     <td className="text-center">
                                         <button className="btn btn-primary btn-sm" style={{ whiteSpace: 'nowrap' }} onClick={() => onSelect(item)}>
                                             <i className="fa-solid fa-circle-check"></i> 選択

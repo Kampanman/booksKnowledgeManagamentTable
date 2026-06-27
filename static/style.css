@@ -632,4 +632,79 @@ body {
         height: 3rem;
         font-size: 1rem;
     }
+
+    /* ========================================
+       モバイル向け カード型テーブル
+       テーブルのカラムを縦積みに変換
+    ======================================== */
+
+    /* thead（列ヘッダー行）を非表示 */
+    .table-mobile-card thead {
+        display: none;
+    }
+
+    /* tbody の各行をカードブロックに変換 */
+    .table-mobile-card tbody tr {
+        display: block;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        background-color: #ffffff;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .table-mobile-card tbody tr.row-expanded-highlight {
+        border-left: 4px solid #3b82f6;
+        background-color: #eff6ff !important;
+    }
+
+    /* ストライプ行の背景をリセット（カード表示では不要） */
+    .table-mobile-card.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #ffffff;
+    }
+
+    .table-mobile-card.table-striped tbody tr:nth-of-type(odd):hover {
+        background-color: #f8fafc;
+    }
+
+    /* 各セルをブロック（縦積み）に変換 */
+    .table-mobile-card tbody td {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed #f1f5f9;
+        font-size: 0.9rem;
+    }
+
+    /* 最後のセル（操作ボタン）は区切り線なし・中央揃え */
+    .table-mobile-card tbody td:last-child {
+        border-bottom: none;
+        justify-content: center;
+        padding-top: 0.75rem;
+    }
+
+    /* data-label を ::before 疑似要素でラベルとして表示 */
+    .table-mobile-card tbody td[data-label]::before {
+        content: attr(data-label);
+        flex-shrink: 0;
+        min-width: 7em;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding-top: 0.1rem;
+    }
+
+    /* data-label のないセル（操作列など）はラベルなし */
+    .table-mobile-card tbody td:not([data-label])::before {
+        content: none;
+    }
+
+    /* 詳細情報グリッドをモバイルでは1列に強制 */
+    .extra-data-grid {
+        grid-template-columns: 1fr !important;
+    }
 }
