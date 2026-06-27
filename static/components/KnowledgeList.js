@@ -88,7 +88,7 @@ const KnowledgeList = ({ list, onSelect }) => {
                                 <tr key={item.file_title || index}>
                                     <td className="font-semibold">{item.view_title}</td>
                                     <td className="text-center">
-                                        <button className="btn btn-primary btn-sm" onClick={() => onSelect(item)}>
+                                        <button className="btn btn-primary btn-sm" style={{ whiteSpace: 'nowrap' }} onClick={() => onSelect(item)}>
                                             <i className="fa-solid fa-circle-check"></i> 選択
                                         </button>
                                     </td>

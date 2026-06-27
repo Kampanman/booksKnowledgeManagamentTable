@@ -3,12 +3,19 @@ const KnowledgeDetail = ({ detail, onBack }) => {
     const [expandedRow, setExpandedRow] = React.useState(null);
     const [perPage, setPerPage] = React.useState(10);
     const [currentPage, setCurrentPage] = React.useState(1);
+    const [searchQuery, setSearchQuery] = React.useState('');
 
     // 表示件数や詳細データが変わったときは1ページ目に戻す
     React.useEffect(() => {
         setCurrentPage(1);
         setExpandedRow(null);
     }, [perPage, detail]);
+
+    // 検索語が変わったときは1ページ目に戻す
+    React.useEffect(() => {
+        setCurrentPage(1);
+        setExpandedRow(null);
+    }, [searchQuery]);
 
     // 改行コード（\n, \r\n, /n, /r/n）の変換ユーティリティ
     const formatValue = (val) => {
@@ -45,13 +52,28 @@ const KnowledgeDetail = ({ detail, onBack }) => {
             }));
     };
 
+    // 検索・フィルタリング（view_cols の値を対象）
+    const filteredData = data.filter(row =>
+        view_cols.some(col => {
+            const val = formatValue(row[col]);
+            return val.toLowerCase().includes(searchQuery.toLowerCase());
+        })
+    );
+
     // ページネーション計算
     const indexOfLastItem = currentPage * perPage;
     const indexOfFirstItem = indexOfLastItem - perPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(data.length / perPage);
+    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredData.length / perPage);
 
     const extraData = expandedRow !== null ? getExtraData(data[expandedRow]) : [];
+
+    // 詳細情報グリッドの列数を件数に応じて決定
+    const getGridCols = (count) => {
+        if (count <= 1) return 1;
+        if (count === 2) return 2;
+        return 3;
+    };
 
     return (
         <div className="detail-container">
@@ -63,15 +85,31 @@ const KnowledgeDetail = ({ detail, onBack }) => {
                     <div className="card-controls">
                         <span className="badge">レコード数: {data.length}件</span>
                         {data.length > 0 && (
-                            <div className="control-group">
-                                <label>表示件数:</label>
-                                <select value={perPage} onChange={(e) => setPerPage(Number(e.target.value))}>
-                                    <option value={10}>10件</option>
-                                    <option value={20}>20件</option>
-                                    <option value={50}>50件</option>
-                                    <option value={100}>100件</option>
-                                </select>
-                            </div>
+                            <>
+                                <div className="search-box">
+                                    <i className="fa-solid fa-magnifying-glass search-icon"></i>
+                                    <input
+                                        type="text"
+                                        placeholder="レコードを検索..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                    {searchQuery && (
+                                        <button className="clear-btn" onClick={() => setSearchQuery('')} aria-label="検索クリア">
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </button>
+                                    )}
+                                </div>
+                                <div className="control-group">
+                                    <label>表示件数:</label>
+                                    <select value={perPage} onChange={(e) => setPerPage(Number(e.target.value))}>
+                                        <option value={10}>10件</option>
+                                        <option value={20}>20件</option>
+                                        <option value={50}>50件</option>
+                                        <option value={100}>100件</option>
+                                    </select>
+                                </div>
+                            </>
                         )}
                     </div>
                 </div>
@@ -83,7 +121,7 @@ const KnowledgeDetail = ({ detail, onBack }) => {
                                 {view_cols.map(col => (
                                     <th key={col}>{col}</th>
                                 ))}
-                                <th className="text-center" style={{ width: '120px' }}>展開</th>
+                                <th className="text-center" style={{ width: '120px' }}>操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,7 +137,7 @@ const KnowledgeDetail = ({ detail, onBack }) => {
                                                 const formatted = formatValue(row[col]);
                                                 return <td key={col}>{formatted !== '' ? formatted : '-'}</td>;
                                             })}
-                                            <td className="text-center">
+                                            <td className="text-center" style={{ whiteSpace: 'nowrap' }}>
                                                 <button 
                                                     className={`btn btn-sm ${expandedRow === globalIndex ? 'btn-danger' : 'btn-info'}`}
                                                     onClick={() => handleExpand(globalIndex)}
@@ -114,7 +152,7 @@ const KnowledgeDetail = ({ detail, onBack }) => {
                                 <tr>
                                     <td colSpan={view_cols.length + 1} className="no-data">
                                         <i className="fa-regular fa-folder-open"></i>
-                                        <p>データがありません。</p>
+                                        <p>{searchQuery ? '検索条件に一致するレコードが見つかりませんでした。' : 'データがありません。'}</p>
                                     </td>
                                 </tr>
                             )}
@@ -166,7 +204,10 @@ const KnowledgeDetail = ({ detail, onBack }) => {
                     </div>
                     <div className="extra-data-content">
                         {extraData.length > 0 ? (
-                            <div className="extra-data-grid">
+                            <div
+                                className="extra-data-grid"
+                                style={{ gridTemplateColumns: `repeat(${getGridCols(extraData.length)}, 1fr)` }}
+                            >
                                 {extraData.map((item, idx) => (
                                     <div key={idx} className="extra-data-item">
                                         <div className="extra-data-label">{item.key}</div>
