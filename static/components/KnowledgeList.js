@@ -28,6 +28,18 @@ const KnowledgeList = ({ list, onSelect }) => {
         setCurrentPage(pageNumber);
     };
 
+    // ページネーション: 最大5件のスライドウィンドウ
+    const getPageNumbers = (current, total) => {
+        const windowSize = 5;
+        if (total <= windowSize) {
+            return Array.from({ length: total }, (_, i) => i + 1);
+        }
+        let start = current - Math.floor(windowSize / 2);
+        start = Math.max(1, start);
+        start = Math.min(start, total - windowSize + 1);
+        return Array.from({ length: windowSize }, (_, i) => start + i);
+    };
+
     // 検索語や表示件数が変わったときは1ページ目に戻す
     React.useEffect(() => {
         setCurrentPage(1);
@@ -116,13 +128,13 @@ const KnowledgeList = ({ list, onSelect }) => {
                     >
                         <i className="fa-solid fa-chevron-left"></i>
                     </button>
-                    {[...Array(totalPages)].map((_, i) => (
+                    {getPageNumbers(currentPage, totalPages).map(pageNum => (
                         <button 
-                            key={i} 
-                            onClick={() => handlePageChange(i + 1)}
-                            className={`page-link ${currentPage === i + 1 ? 'active' : ''}`}
+                            key={pageNum} 
+                            onClick={() => handlePageChange(pageNum)}
+                            className={`page-link ${currentPage === pageNum ? 'active' : ''}`}
                         >
-                            {i + 1}
+                            {pageNum}
                         </button>
                     ))}
                     <button 

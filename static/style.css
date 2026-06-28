@@ -360,9 +360,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.35rem;
-    padding: 1.5rem;
+    padding: 1.25rem 1rem;
     border-top: 1px solid #f1f5f9;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .page-link {
@@ -706,5 +709,16 @@ body {
     /* 詳細情報グリッドをモバイルでは1列に強制 */
     .extra-data-grid {
         grid-template-columns: 1fr !important;
+    }
+
+    /* ページネーションのスマホ対応 */
+    .pagination {
+        gap: 0.25rem;
+        padding: 1rem 0.5rem;
+    }
+    .page-link {
+        min-width: 2rem;
+        height: 2rem;
+        font-size: 0.8rem;
     }
 }

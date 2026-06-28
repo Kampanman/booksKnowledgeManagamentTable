@@ -41,6 +41,18 @@ const KnowledgeDetail = ({ detail, onBack }) => {
         setExpandedRow(null);
     };
 
+    // ページネーション: 最大5件のスライドウィンドウ
+    const getPageNumbers = (current, total) => {
+        const windowSize = 5;
+        if (total <= windowSize) {
+            return Array.from({ length: total }, (_, i) => i + 1);
+        }
+        let start = current - Math.floor(windowSize / 2);
+        start = Math.max(1, start);
+        start = Math.min(start, total - windowSize + 1);
+        return Array.from({ length: windowSize }, (_, i) => start + i);
+    };
+
     // 選択された行の、指定項目以外のデータを抽出
     const getExtraData = (row) => {
         if (!row) return [];
@@ -170,13 +182,13 @@ const KnowledgeDetail = ({ detail, onBack }) => {
                         >
                             <i className="fa-solid fa-chevron-left"></i>
                         </button>
-                        {[...Array(totalPages)].map((_, i) => (
+                        {getPageNumbers(currentPage, totalPages).map(pageNum => (
                             <button 
-                                key={i} 
-                                onClick={() => handlePageChange(i + 1)}
-                                className={`page-link ${currentPage === i + 1 ? 'active' : ''}`}
+                                key={pageNum} 
+                                onClick={() => handlePageChange(pageNum)}
+                                className={`page-link ${currentPage === pageNum ? 'active' : ''}`}
                             >
-                                {i + 1}
+                                {pageNum}
                             </button>
                         ))}
                         <button 
